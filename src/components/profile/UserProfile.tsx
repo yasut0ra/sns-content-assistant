@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
@@ -29,13 +29,7 @@ export function UserProfile() {
     { id: 'game', label: 'ゲーム' },
   ];
 
-  useEffect(() => {
-    if (user) {
-      loadUserPreferences();
-    }
-  }, [user]);
-
-  const loadUserPreferences = async () => {
+  const loadUserPreferences = useCallback(async () => {
     try {
       const docRef = doc(db, 'users', user!.uid);
       const docSnap = await getDoc(docRef);
@@ -49,7 +43,13 @@ export function UserProfile() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [user]);
+
+  useEffect(() => {
+    if (user) {
+      loadUserPreferences();
+    }
+  }, [user, loadUserPreferences]);
 
   const handleCategoryChange = async (categoryId: string) => {
     const newCategories = preferences.categories.includes(categoryId)

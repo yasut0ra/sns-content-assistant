@@ -29,16 +29,11 @@ export function SocialLogin() {
         twitterAccessSecret: credential?.secret,
       }, { merge: true });
 
-    } catch (error: any) {
-      console.error('Twitter login error details:', {
-        code: error.code,
-        message: error.message,
-        email: error.email,
-        credential: error.credential
-      });
-      
-      if (error.code === 'auth/invalid-credential') {
-        console.error('認証情報が無効です。X Developer Portalの設定を確認してください。');
+    } catch (error) {
+      if (error instanceof Error) {
+        console.error('Twitterログインに失敗しました:', error.message);
+      } else {
+        console.error('予期せぬエラーが発生しました');
       }
     }
   };

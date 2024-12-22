@@ -8,8 +8,20 @@ export function PerformanceAnalytics() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // TODO: 実際のデータ取得ロジックを実装
-    setLoading(false);
+    const fetchPosts = async () => {
+      try {
+        // TODO: 実際のデータ取得ロジックを実装
+        const response = await fetch('/api/posts/analytics');
+        const data = await response.json();
+        setPosts(data.posts);
+      } catch (error) {
+        console.error('投稿データの取得に失敗しました:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPosts();
   }, []);
 
   return (

@@ -1,10 +1,25 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import type { Post } from '@/types';
 
 export function ScheduleCalendar() {
   const [scheduledPosts, setScheduledPosts] = useState<Post[]>([]);
+
+  useEffect(() => {
+    const fetchScheduledPosts = async () => {
+      try {
+        // TODO: 実際のデータ取得ロジックを実装
+        const response = await fetch('/api/posts/scheduled');
+        const data = await response.json();
+        setScheduledPosts(data.posts);
+      } catch (error) {
+        console.error('予定投稿の取得に失敗しました:', error);
+      }
+    };
+
+    fetchScheduledPosts();
+  }, []);
 
   return (
     <div className="p-6 bg-white rounded-lg shadow-md">
