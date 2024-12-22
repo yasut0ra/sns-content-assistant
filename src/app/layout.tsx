@@ -13,8 +13,15 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Twitter投稿アシスタント",
-  description: "AIを活用したTwitter投稿支援ツール",
+  title: {
+    default: 'Twitter投稿アシスタント',
+    template: '%s | Twitter投稿アシスタント',
+  },
+  description: 'AIを活用したTwitter投稿支援ツール',
+  icons: {
+    icon: '/favicon.ico',
+  },
+  manifest: '/manifest.json',
 };
 
 export default function RootLayout({

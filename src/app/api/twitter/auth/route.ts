@@ -4,15 +4,20 @@ import { TwitterApi } from 'twitter-api-v2';
 export async function POST() {
   try {
     const client = new TwitterApi({
-      appKey: process.env.TWITTER_CLIENT_ID!,
-      appSecret: process.env.TWITTER_CLIENT_SECRET!,
+      appKey: process.env.X_API_KEY!,
+      appSecret: process.env.X_API_SECRET!,
     });
 
-    const authLink = await client.generateAuthLink(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/api/twitter/callback`
+    // OAuth 2.0用のURLを生成
+    const { url, codeVerifier, state } = client.generateOAuth2AuthLink(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/auth/callback`,
+      { scope: ['tweet.read', 'tweet.write', 'users.read'] }
     );
 
-    return NextResponse.json({ url: authLink.url });
+    // TODO: codeVerifierとstateを一時的に保存する必要があります
+    // セッションやクッキーなどに保存することを推奨
+
+    return NextResponse.json({ url });
   } catch (error) {
     console.error('Twitter認証エラー:', error);
     return NextResponse.json(

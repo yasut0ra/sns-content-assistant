@@ -7,20 +7,19 @@ export interface User {
 
 export interface Post {
   postId: string;
-  userId: string;
   content: string;
-  hashtags: string[];
-  scheduledAt: Date;
-  performance: {
+  scheduledAt?: string;
+  performance?: {
     likes: number;
     retweets: number;
     replies: number;
   };
+  userId: string;
+  createdAt: string;
 }
 
 export interface ContentSuggestion {
   title: string;
   content: string;
   hashtags: string[];
-  referenceImages?: string[];
 } 
