@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { TwitterApi } from 'twitter-api-v2';
 
-export async function POST(req: Request) {
+export async function POST() {
   try {
     const client = new TwitterApi({
       appKey: process.env.TWITTER_CLIENT_ID!,
